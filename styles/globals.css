@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input {
+  @apply block my-5 w-full p-3 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-gray-800;
+}
