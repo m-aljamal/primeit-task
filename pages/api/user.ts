@@ -1,18 +1,45 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../components/prisma";
+import nc from "next-connect";
+import onError from "../../components/onError";
+import rateLimit from "../../components/rateLimit";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    res.status(404).json({ error: "Not Found" });
+const handler = nc({
+  onError,
+});
+
+handler.use(rateLimit);
+console.log(rateLimit);
+
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const userData = JSON.parse(req.body);
+    userData.avatar = `https://i.pravatar.cc/${Math.round(
+      Math.random() * 2000
+    )}`;
+    const user = await prisma.user.create({
+      data: userData,
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    console.log("server", error);
   }
+});
 
-  const userData = JSON.parse(req.body);
-  userData.avatar = `https://i.pravatar.cc/${Math.round(Math.random() * 2000)}`;
-  const user = await prisma.user.create({
-    data: userData,
-  });
-  res.status(200).json(user);
-}
+export default handler;
+
+// export default async function handler(
+//   req: NextApiRequest,
+//   res: NextApiResponse
+// ) {
+//   if (req.method !== "POST") {
+//     res.status(404).json({ error: "Not Found" });
+//   }
+
+//   const userData = JSON.parse(req.body);
+//   userData.avatar = `https://i.pravatar.cc/${Math.round(Math.random() * 2000)}`;
+//   const user = await prisma.user.create({
+//     data: userData,
+//   });
+//   res.status(200).json(user);
+// }
