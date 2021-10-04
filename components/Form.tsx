@@ -5,8 +5,8 @@ import Input from "./Input";
 import { useEffect, useState } from "react";
 import { findEmailDomain } from "../utils/findEmaildomain";
 import { validationSchema } from "../utils/formValidation";
-
-const Form = ({ onSubmit }: any) => {
+import SvgLoading from "./SvgLoading";
+const Form = ({ onSubmit, loading }: any) => {
   const [showEduType, setShowEduType] = useState(false);
 
   const {
@@ -51,12 +51,18 @@ const Form = ({ onSubmit }: any) => {
           placeholder="Password:"
           error={errors.password?.message}
         />
-        <button
-          type="submit"
-          className="w-full mt-5 bg-blue-400 py-3 rounded-md text-xl"
-        >
-          Submit
-        </button>
+        <div className="relative rounded-md">
+          <button
+            disabled={loading}
+            type="submit"
+            className={`w-full  bg-blue-400 py-3 rounded-md text-xl ${
+              loading && "opacity-40 cursor-not-allowed"
+            }`}
+          >
+            Submit
+          </button>
+          {loading && <SvgLoading />}
+        </div>
       </form>
     </div>
   );

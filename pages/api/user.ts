@@ -8,8 +8,7 @@ const handler = nc({
   onError,
 });
 
-handler.use(rateLimit);
-console.log(rateLimit);
+// handler.use(rateLimit);
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -27,19 +26,3 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 export default handler;
-
-// export default async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse
-// ) {
-//   if (req.method !== "POST") {
-//     res.status(404).json({ error: "Not Found" });
-//   }
-
-//   const userData = JSON.parse(req.body);
-//   userData.avatar = `https://i.pravatar.cc/${Math.round(Math.random() * 2000)}`;
-//   const user = await prisma.user.create({
-//     data: userData,
-//   });
-//   res.status(200).json(user);
-// }
