@@ -19,8 +19,8 @@ const Home: FC<IUsers> = ({ users }) => {
 
       const userFromData = await res.json();
       setUsersState([...usersState, userFromData]);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.message);
     }
   };
   return (
