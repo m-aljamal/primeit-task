@@ -6,12 +6,14 @@ import { prisma } from "../components/prisma";
 import toast, { Toaster } from "react-hot-toast";
 
 const Home: FC<IUsers> = ({ users }) => {
-  console.log(users);
-
   const [usersState, setUsersState] = useState(users);
   const [loading, setLoading] = useState(false);
-  const formSubmit = async (data: Inputs, e: any) => {
+
+  const [submited, setSubmited] = useState(false);
+
+  const formSubmit = async (data: Inputs) => {
     try {
+      setSubmited(false);
       setLoading(true);
       const res = await fetch("/api/user", {
         method: "POST",
@@ -25,8 +27,9 @@ const Home: FC<IUsers> = ({ users }) => {
 
       const userFromData = await res.json();
       setLoading(false);
+      setSubmited(true);
       toast.success("User is add!");
-      e.target.reset();
+
       setUsersState([userFromData, ...usersState]);
     } catch (error: any) {
       setLoading(false);
@@ -37,7 +40,7 @@ const Home: FC<IUsers> = ({ users }) => {
     <div className="flex  ">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-2/5 bg-dark pt-5 h-screen sticky top-0">
-        <Form onSubmit={formSubmit} loading={loading} />
+        <Form onSubmit={formSubmit} loading={loading} submited={submited} />
       </div>
       <div className="w-3/5 pt-5 pl-5 container ">
         {usersState.map((user) => (

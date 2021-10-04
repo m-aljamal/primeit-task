@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { findEmailDomain } from "../utils/findEmaildomain";
 import { validationSchema } from "../utils/formValidation";
 import SvgLoading from "./SvgLoading";
-const Form = ({ onSubmit, loading }: any) => {
+const Form = ({ onSubmit, loading, submited }: any) => {
   const [showEduType, setShowEduType] = useState(false);
-
   const {
     register,
     watch,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({
     resolver: yupResolver(validationSchema) as any,
@@ -21,10 +21,17 @@ const Form = ({ onSubmit, loading }: any) => {
   const email = watch("email");
 
   useEffect(() => {
+    if (submited) {
+      reset();
+      setShowEduType(false);
+    }
+  }, [submited, reset]);
+
+  useEffect(() => {
     setShowEduType(false);
     const doamin = findEmailDomain(email);
     if (doamin === "edu") setShowEduType(true);
-  }, [email]);
+  }, [email, setShowEduType]);
 
   return (
     <div className=" container text-white ">
