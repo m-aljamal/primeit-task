@@ -8,7 +8,7 @@ const handler = nc({
   onError,
 });
 
-// handler.use(rateLimit);
+handler.use(rateLimit);
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {

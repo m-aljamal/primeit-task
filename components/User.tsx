@@ -5,14 +5,14 @@ const User = ({ user }: IUserProps) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="mb-8 shadow-md p-5 border flex items-center gap-10 rounded-md">
-      <div>
+      <div className="hidden sm:block">
         {user.avatar && (
           <Image
             alt="avatar"
             src={user.avatar}
             width={100}
             height={100}
-            className="rounded-full"
+            className="rounded-full "
           />
         )}
       </div>
